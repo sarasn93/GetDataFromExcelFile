@@ -1,15 +1,12 @@
 ﻿using Application.Repositories;
 using Core.Application.Repositories;
-using Domain;
 using Domain.Entities;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using Application.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -52,7 +49,21 @@ namespace Persistence.Services
             }
             return (pathBuilt + "\\" + fileName);
         }
+        public async Task CreateDataInDb(int fileTypeId, string fileDirection)
+        {
+            switch (fileTypeId)
+            {
+                case 0:
+                    throw new NullException(nameof(fileTypeId));
+                case 1:
+                    await AddAllUser(fileDirection);
+                    break;
 
+                case 2:
+                    await AddAllOrder(fileDirection);
+                    break;
+            }
+        }
         public async Task AddAllUser(string fileName)
         {
             List<User> users = new List<User>();
@@ -68,8 +79,6 @@ namespace Persistence.Services
                             UseHeaderRow = true
                         }
                     };
-                    var dataSet = reader.AsDataSet(conf);
-                    var dataTable = dataSet.Tables[0];
 
                     while (reader.Read())
                     {
@@ -109,12 +118,10 @@ namespace Persistence.Services
                             UseHeaderRow = true
                         }
                     };
-                    var dataSet = reader.AsDataSet(conf);
-                    var dataTable = dataSet.Tables[0];
-
+                    //var dataSet = reader.AsDataSet(conf);
+                    //var dataTable = dataSet.Tables[0];
                     while (reader.Read())
                     {
-
                         if (reader.GetValue(0).ToString().Contains("Id"))
                             throw new ValidationException();
                         var newOrder = new Order
@@ -139,6 +146,5 @@ namespace Persistence.Services
                 await _order.AddRange(orders);
             }
         }
-
     }
 }

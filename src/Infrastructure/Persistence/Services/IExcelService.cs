@@ -1,10 +1,4 @@
-﻿using Domain;
-using Domain.Entities;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
 namespace Persistence.Services
@@ -12,6 +6,7 @@ namespace Persistence.Services
     public interface IExcelService
     {
         Task<string> SaveFile(IFormFile file);
+        Task CreateDataInDb(int fileTypeId,string fileDirection);
         Task AddAllUser(string fileName);
         Task AddAllOrder(string fileName);
     }

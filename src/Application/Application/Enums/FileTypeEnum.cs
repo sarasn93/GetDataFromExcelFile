@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Application.Enums
 {
-    public enum ApiResultStatusCode
+    public enum FileTypeEnum
     {
         [Display(Name = "کاربران")]
         Users = 1,
